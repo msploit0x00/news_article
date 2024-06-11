@@ -9,9 +9,9 @@ from news_article import __version__ as version
 setup(
 	name="news_article",
 	version=version,
-	description="ds",
-	author="ds",
-	author_email="ds",
+	description="alternative news letter",
+	author="Ahmed",
+	author_email="ahmed751995@gmail.com",
 	packages=find_packages(),
 	zip_safe=False,
 	include_package_data=True,

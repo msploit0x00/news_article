@@ -1,7 +1,7 @@
 ## News Article
 
-ds
+alternative news letter
 
 #### License
 
-MIT
+GNU V3

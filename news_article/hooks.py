@@ -2,17 +2,17 @@ from . import __version__ as app_version
 
 app_name = "news_article"
 app_title = "News Article"
-app_publisher = "ds"
-app_description = "ds"
-app_email = "ds"
-app_license = "MIT"
+app_publisher = "mina"
+app_description = "alternative news letter"
+app_email = "mina.m@datasofteg.com"
+app_license = "GNU V3"
 
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/news_article/css/news_article.css"
-# app_include_js = "/assets/news_article/js/news_article.js"
+# app_include_js = "public/js/generalization/generalization.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/news_article/css/news_article.css"
@@ -29,8 +29,9 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_js = {"Generalization" : "public/js/generalization/generalization.js",
+              "Meeting": "public/js/meeting.js"}
+# doctype_list_js = {"doctype" : "public/js/generalization_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
