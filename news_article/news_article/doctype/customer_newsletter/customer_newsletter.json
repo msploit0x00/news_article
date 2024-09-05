@@ -8,6 +8,8 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
+  "source",
+  "generealiztion_id",
   "time",
   "sender_type",
   "sender_email",
@@ -62,11 +64,23 @@
    "fieldname": "date",
    "fieldtype": "Date",
    "label": "Date"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "label": "source",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "generealiztion_id",
+   "fieldtype": "Dynamic Link",
+   "label": " Generealiztion ID",
+   "options": "source"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-15 15:07:16.770044",
+ "modified": "2024-09-04 10:28:59.436200",
  "modified_by": "Administrator",
  "module": "News Article",
  "name": "Customer Newsletter",
