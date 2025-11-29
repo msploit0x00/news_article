@@ -1,12 +1,14 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series: [naming_series]",
  "creation": "2023-12-15 22:51:17.643598",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "date",
   "source",
   "generealiztion_id",
@@ -76,14 +78,22 @@
    "fieldtype": "Dynamic Link",
    "label": " Generealiztion ID",
    "options": "source"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "GN-Email-"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-04 10:28:59.436200",
+ "modified": "2024-09-17 10:35:40.218005",
  "modified_by": "Administrator",
  "module": "News Article",
  "name": "Customer Newsletter",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
