@@ -127,13 +127,40 @@ def get_contacts_info(customers, is_json=True):
 #     return contacts
 
 
+# @frappe.whitelist()
+# def get_committee_mail2(gen, customer_status):
+#     # جلب ال Committees من Generalization
+#     gen_doc = frappe.get_doc("Committee Generalization", gen)
+#     selected_committees = [c.the_commission for c in gen_doc.committees]
+
+#     # جلب كل الـ Customers المرتبطين بهذه اللجان
+#     customers = frappe.get_all(
+#         "Committees you would like to join",
+#         filters={"committees": ("in", selected_committees)},
+#         fields=["parent"]
+#     )
+
+#     contacts = []
+#     for cust in customers:
+#         cust_doc = frappe.get_doc("Customer", cust["parent"])
+#         if cust_doc.custom_customer_status == customer_status:
+#             for row in cust_doc.get("custom_emails"):
+#                 if row.email_id:
+#                     contacts.append(
+#                         {"email": row.email_id, "name": cust_doc.name})
+
+#     return contacts
+
 @frappe.whitelist()
 def get_committee_mail2(gen, customer_status):
-    # جلب ال Committees من Generalization
+    # 1️⃣ هات الدوك
     gen_doc = frappe.get_doc("Committee Generalization", gen)
-    selected_committees = [c.the_commission for c in gen_doc.committees]
 
-    # جلب كل الـ Customers المرتبطين بهذه اللجان
+    # 2️⃣ جمع كل القيم من child table زي النسخة اللي فوق بالظبط
+    # عدل الاسم حسب اسم الفيلد الحقيقي
+    selected_committees = [d.committes for d in gen_doc.committees]
+
+    # 3️⃣ هات كل الـ customers اللي join committees
     customers = frappe.get_all(
         "Committees you would like to join",
         filters={"committees": ("in", selected_committees)},
@@ -141,13 +168,17 @@ def get_committee_mail2(gen, customer_status):
     )
 
     contacts = []
+
     for cust in customers:
         cust_doc = frappe.get_doc("Customer", cust["parent"])
+
         if cust_doc.custom_customer_status == customer_status:
             for row in cust_doc.get("custom_emails"):
                 if row.email_id:
-                    contacts.append(
-                        {"email": row.email_id, "name": cust_doc.name})
+                    contacts.append({
+                        "email": row.email_id,
+                        "name": cust_doc.name
+                    })
 
     return contacts
 
