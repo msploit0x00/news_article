@@ -63,68 +63,69 @@ def get_contacts_info(customers, is_json=True):
     return contacts
 
 
-# @frappe.whitelist()
-# def get_committee_mail2(gen, customer_status):
-#     gen_doc = frappe.get_doc("Committee Generalization", gen)
-#     selected_committee = [
-#         gen_doc.committees
-#     ]
+@frappe.whitelist()
+def get_committee_mail2(gen, customer_status):
+    gen_doc = frappe.get_doc("Committee Generalization", gen)
+    selected_committee = [
+        gen_doc.committees
+    ]
 
-#     customers = frappe.get_all(
-#         "Committees you would like to join",
-#         filters={"committees": ("in", selected_committee)},
-# 	limit_page_length=5000,
-#         fields=["parent"])
-#     filtered_customers = []
-#     contacts = []
-#     for customer in customers:
-#         customer_doc = frappe.get_doc("Customer", customer["parent"])
-#         if customer_doc.custom_customer_status == customer_status:
-#             filtered_customers.append(customer_doc.name)
-#     # contacts_names = frappe.get_all("Dynamic Link",
-#     #                                 filters={
-#     #                                     "link_doctype": "Customer",
-#     #                                     "link_name": ["in", filtered_customers]
-#     #                                 },
-#     #                                 fields=["parent"])
+    customers = frappe.get_all(
+        "Committees you would like to join",
+        filters={"committees": ("in", selected_committee)},
+        limit_page_length=5000,
+        fields=["parent"])
+    filtered_customers = []
+    contacts = []
+    for customer in customers:
+        customer_doc = frappe.get_doc("Customer", customer["parent"])
+        if customer_doc.custom_customer_status == customer_status:
+            filtered_customers.append(customer_doc.name)
+    # contacts_names = frappe.get_all("Dynamic Link",
+    #                                 filters={
+    #                                     "link_doctype": "Customer",
+    #                                     "link_name": ["in", filtered_customers]
+    #                                 },
+    #                                 fields=["parent"])
 
-# #    for contact in contacts_names:
-# #        if frappe.db.exists("Contact", contact["parent"]):
-# #            contact_doc = frappe.get_doc("Contact", contact["parent"])
-# #            if contact_doc.email_id:
-# #                name = contact_doc.first_name + " " if contact_doc.first_name else ""
-# #                name += contact_doc.last_name if contact_doc.last_name else ""
-# #
-#             contacts.append({"email": customer_doc.custom_email, "name": customer_doc.name})
-#     return contacts
+#    for contact in contacts_names:
+#        if frappe.db.exists("Contact", contact["parent"]):
+#            contact_doc = frappe.get_doc("Contact", contact["parent"])
+#            if contact_doc.email_id:
+#                name = contact_doc.first_name + " " if contact_doc.first_name else ""
+#                name += contact_doc.last_name if contact_doc.last_name else ""
+#
+            contacts.append(
+                {"email": customer_doc.custom_email, "name": customer_doc.name})
+    return contacts
 
 
-# @frappe.whitelist()
-# def get_committee_mail2(gen, customer_status):
-#     gen_doc = frappe.get_doc("Committee Generalization", gen)
-#     selected_committee = [gen_doc.committees]
+@frappe.whitelist()
+def get_committee_mail2(gen, customer_status):
+    gen_doc = frappe.get_doc("Committee Generalization", gen)
+    selected_committee = [gen_doc.committees]
 
-#     customers = frappe.get_all(
-#         "Committees you would like to join",
-#         filters={"committees": ("in", selected_committee)},
-#         limit_page_length=5000,
-#         fields=["parent"]
-#     )
+    customers = frappe.get_all(
+        "Committees you would like to join",
+        filters={"committees": ("in", selected_committee)},
+        limit_page_length=5000,
+        fields=["parent"]
+    )
 
-#     contacts = []
+    contacts = []
 
-#     for customer in customers:
-#         customer_doc = frappe.get_doc("Customer", customer["parent"])
-#         if customer_doc.custom_customer_status == customer_status:
-#             # loop through the child table 'custom_emails'
-#             for row in customer_doc.get("custom_emails"):
-#                 if row.email_id:  # only add if email exists
-#                     contacts.append({
-#                         "email": row.email_id,
-#                         "name": customer_doc.name
-#                     })
+    for customer in customers:
+        customer_doc = frappe.get_doc("Customer", customer["parent"])
+        if customer_doc.custom_customer_status == customer_status:
+            # loop through the child table 'custom_emails'
+            for row in customer_doc.get("custom_emails"):
+                if row.email_id:  # only add if email exists
+                    contacts.append({
+                        "email": row.email_id,
+                        "name": customer_doc.name
+                    })
 
-#     return contacts
+    return contacts
 
 
 # @frappe.whitelist()
@@ -151,36 +152,36 @@ def get_contacts_info(customers, is_json=True):
 
 #     return contacts
 
-@frappe.whitelist()
-def get_committee_mail2(gen, customer_status):
-    # 1️⃣ هات الدوك
-    gen_doc = frappe.get_doc("Committee Generalization", gen)
+# @frappe.whitelist()
+# def get_committee_mail2(gen, customer_status):
+#     # 1️⃣ هات الدوك
+#     gen_doc = frappe.get_doc("Committee Generalization", gen)
 
-    # 2️⃣ جمع كل القيم من child table زي النسخة اللي فوق بالظبط
-    # عدل الاسم حسب اسم الفيلد الحقيقي
-    selected_committees = [d.committes for d in gen_doc.committees]
+#     # 2️⃣ جمع كل القيم من child table زي النسخة اللي فوق بالظبط
+#     # عدل الاسم حسب اسم الفيلد الحقيقي
+#     selected_committees = [d.committes for d in gen_doc.committees]
 
-    # 3️⃣ هات كل الـ customers اللي join committees
-    customers = frappe.get_all(
-        "Committees you would like to join",
-        filters={"committees": ("in", selected_committees)},
-        fields=["parent"]
-    )
+#     # 3️⃣ هات كل الـ customers اللي join committees
+#     customers = frappe.get_all(
+#         "Committees you would like to join",
+#         filters={"committees": ("in", selected_committees)},
+#         fields=["parent"]
+#     )
 
-    contacts = []
+#     contacts = []
 
-    for cust in customers:
-        cust_doc = frappe.get_doc("Customer", cust["parent"])
+#     for cust in customers:
+#         cust_doc = frappe.get_doc("Customer", cust["parent"])
 
-        if cust_doc.custom_customer_status == customer_status:
-            for row in cust_doc.get("custom_emails"):
-                if row.email_id:
-                    contacts.append({
-                        "email": row.email_id,
-                        "name": cust_doc.name
-                    })
+#         if cust_doc.custom_customer_status == customer_status:
+#             for row in cust_doc.get("custom_emails"):
+#                 if row.email_id:
+#                     contacts.append({
+#                         "email": row.email_id,
+#                         "name": cust_doc.name
+#                     })
 
-    return contacts
+#     return contacts
 
 
 @frappe.whitelist()
