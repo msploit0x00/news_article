@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Customer Newsletter', {
   refresh: function(frm) {
-    if(!frm.doc.__unsaved) {
+    if(!frm.doc.__unsaved && frm.doc.custom_sent_email_direct === 1) {
       frm.add_custom_button(__('Send Email'), function(){
         frm.call("send_email").then(() => {
           cosnole.log("done");

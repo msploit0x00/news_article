@@ -1,4 +1,5 @@
-# Copyright (c) 2025, mina and contributors
+
+# Copyright (c) 2025, mina and contribut
 # For license information, please see license.txt
 
 # import frappe
