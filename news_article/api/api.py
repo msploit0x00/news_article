@@ -130,7 +130,7 @@ def get_contacts_info(customers, is_json=True):
 @frappe.whitelist()
 def get_committee_mail2(gen, customer_status):
     # جلب ال Committees من Generalization
-    gen_doc = frappe.get_doc("Generalization", gen)
+    gen_doc = frappe.get_doc("Committee Generalization", gen)
     selected_committees = [c.the_commission for c in gen_doc.committees]
 
     # جلب كل الـ Customers المرتبطين بهذه اللجان
@@ -181,4 +181,111 @@ def get_generalzation_email(gen, customer_status):
         return contacts or []  # ⚠️ ضمان رجوع array دائماً
     except Exception as e:
         frappe.log_error(message=str(e), title="get_committee_mail2 Error")
+        return []
+
+
+@frappe.whitelist()
+def get_authorities_contacts(authority_name):
+    """
+    جلب جهات الاتصال من Authority معينة
+    للاستخدام في Dialog البحث
+
+    Args:
+        authority_name: اسم الـ Authority
+
+    Returns:
+        list: قائمة من القواميس تحتوي على authority, phone, email
+    """
+    try:
+        if not authority_name:
+            return []
+
+        contacts_data = []
+
+        # Get all contacts linked to this authority
+        contacts = frappe.get_all(
+            "Contact",
+            filters={"custom_authority": authority_name},
+            fields=["name"]
+        )
+
+        # For each contact, get detailed information
+        for contact in contacts:
+            contact_doc = frappe.get_doc("Contact", contact.name)
+
+            # Get emails from email_ids child table
+            emails = [row.email_id for row in contact_doc.get(
+                "email_ids", []) if row.email_id]
+
+            # Get phones from phone_nos child table
+            phones = [row.phone for row in contact_doc.get(
+                "phone_nos", []) if row.phone]
+
+            # Create records - match emails and phones by index
+            max_length = max(len(emails), len(phones), 1)
+
+            for i in range(max_length):
+                contacts_data.append({
+                    "authority": authority_name,
+                    "phone": phones[i] if i < len(phones) else "",
+                    "email": emails[i] if i < len(emails) else ""
+                })
+
+        return contacts_data
+
+    except Exception as e:
+        frappe.log_error(message=str(
+            e), title="get_authorities_contacts Error")
+        return []
+
+
+@frappe.whitelist()
+def get_authorities_emails_for_newsletter(authorities_list):
+    """
+    جلب كل الإيميلات من Authorities معينة
+    للاستخدام في إرسال Newsletter (اختياري - للمستقبل)
+
+    Args:
+        authorities_list: قائمة من أسماء الـ Authorities (JSON string or list)
+
+    Returns:
+        list: قائمة من الإيميلات فقط
+    """
+    try:
+        # Parse JSON if string
+        if isinstance(authorities_list, str):
+            import json
+            authorities_list = json.loads(authorities_list)
+
+        if not authorities_list:
+            return []
+
+        all_emails = []
+
+        # Loop through each authority
+        for authority_name in authorities_list:
+            # Get all contacts for this authority
+            contacts = frappe.get_all(
+                "Contact",
+                filters={"custom_authority": authority_name},
+                fields=["name"]
+            )
+
+            # Get emails from each contact
+            for contact in contacts:
+                contact_doc = frappe.get_doc("Contact", contact.name)
+
+                # Get all emails from email_ids child table
+                for email_row in contact_doc.get("email_ids", []):
+                    if email_row.email_id:
+                        all_emails.append(email_row.email_id)
+
+        # Remove duplicates
+        all_emails = list(set(all_emails))
+
+        return all_emails
+
+    except Exception as e:
+        frappe.log_error(message=str(
+            e), title="get_authorities_emails_for_newsletter Error")
         return []
