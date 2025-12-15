@@ -40,21 +40,25 @@
   },
   {
    "fieldname": "section_break_zky4s",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "authorities_committees",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Authorities Committees",
    "options": "Authorities Committees"
   },
   {
    "fieldname": "section_break_d2q01",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "authorities_committees_members",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Authorities Committees Members",
    "options": "Authorities Committees Members"
   },
@@ -74,7 +78,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "email",
    "fieldtype": "Check",
    "label": "Email"
@@ -112,7 +116,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-17 15:05:16.960191",
+ "modified": "2025-12-01 14:40:01.584999",
  "modified_by": "Administrator",
  "module": "News Article",
  "name": "Authorities Generalization 2",
